@@ -41,7 +41,7 @@ public class AppointmentController {
     /**
      * Retrieve all appointments for a specific doctor by doctor ID.
      */
-    @GetMapping("/doctors/{id}")// we have to put preauthorize for doctor so only doctor can see his appointments
+    @GetMapping("/doctors/{doctorId}")// we have to put preauthorize for doctor so only doctor can see his appointments
     public ResponseEntity<List<AppointmentDTO>> getAppointmentsByDoctorId(@PathVariable String doctorId) {
         log.info("Fetching appointments for doctor with id: {}", doctorId);
         List<AppointmentDTO> appointments = appointmentService.getAppointmentsByDoctorId(doctorId);
