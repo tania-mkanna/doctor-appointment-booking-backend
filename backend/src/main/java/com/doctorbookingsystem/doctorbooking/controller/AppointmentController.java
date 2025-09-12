@@ -41,7 +41,7 @@ public class AppointmentController {
     /**
      * Retrieve all appointments for a specific doctor by doctor ID.
      */
-    @GetMapping("/doctors/{doctorId}")// we have to put preauthorize for doctor so only doctor can see his appointments
+    @GetMapping("/{doctorId}")// we have to put preauthorize for doctor so only doctor can see his appointments
     public ResponseEntity<List<AppointmentDTO>> getAppointmentsByDoctorId(@PathVariable String doctorId) {
         log.info("Fetching appointments for doctor with id: {}", doctorId);
         List<AppointmentDTO> appointments = appointmentService.getAppointmentsByDoctorId(doctorId);
@@ -49,16 +49,42 @@ public class AppointmentController {
     }
 
     /**
-     * Update the status of an appointment by a doctor.
+     * Retrieve all appointments for a specific doctor by doctor ID.
      */
-    @PutMapping("{doctorId}/update-status/{appointmentId}")
-    public ResponseEntity<AppointmentDTO> updateAppointmentStatus(
+    @GetMapping("/{patientId}")// we have to put preauthorize for patient so only patient can see his appointments
+    public ResponseEntity<List<AppointmentDTO>> getAppointmentsByPatientId(@PathVariable String patientId) {
+        log.info("Fetching appointments for doctor with id: {}", patientId);
+        List<AppointmentDTO> appointments = appointmentService.getAppointmentsByPatientId(patientId);
+        return ResponseEntity.ok(appointments);
+    }
+    /**
+     * Confirm an appointment by doctor.
+     */
+    @PutMapping("{doctorId}/{appointmentId}/confirm")
+    public ResponseEntity<AppointmentDTO> confirmAppointment(
             @PathVariable String doctorId,
-            @PathVariable String appointmentId,
-            @RequestParam AppointmentStatus status) {
-        log.info("Updating appointment status for appointmentId: {} by doctorId: {}", appointmentId, doctorId);
-        AppointmentDTO appointmentDTO = appointmentService.updateAppointmentStatus(doctorId, appointmentId, status);
-        return ResponseEntity.ok(appointmentDTO);
+            @PathVariable String appointmentId) {
+        return ResponseEntity.ok(appointmentService.confirmAppointment(doctorId, appointmentId));
     }
 
+    /**
+     * Decline an appointment by doctor.
+     */
+    @PutMapping("{doctorId}/{appointmentId}/decline")
+    public ResponseEntity<AppointmentDTO> declineAppointment(
+            @PathVariable String doctorId,
+            @PathVariable String appointmentId) {
+        return ResponseEntity.ok(appointmentService.declineAppointment(doctorId, appointmentId));
+    }
+
+    /**
+     * Cancel an appointment by a patient.
+     */
+    @PutMapping("/{patientId}/{appointmentId}/cancel")
+    public ResponseEntity<AppointmentDTO> cancelAppointment(
+            @PathVariable String patientId,
+            @PathVariable String appointmentId) {
+        AppointmentDTO appointmentDTO = appointmentService.cancelAppointment(patientId, appointmentId);
+        return ResponseEntity.ok(appointmentDTO);
+    }
 }

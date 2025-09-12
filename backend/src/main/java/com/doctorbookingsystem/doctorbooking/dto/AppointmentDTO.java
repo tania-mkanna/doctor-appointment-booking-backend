@@ -3,30 +3,25 @@ package com.doctorbookingsystem.doctorbooking.dto;
 import com.doctorbookingsystem.doctorbooking.enums.AppointmentStatus;
 import com.doctorbookingsystem.doctorbooking.enums.AppointmentPriority;
 import com.doctorbookingsystem.doctorbooking.enums.CaseType;
-import com.doctorbookingsystem.doctorbooking.model.Slot;
-import jakarta.validation.constraints.NotBlank;
+import com.doctorbookingsystem.doctorbooking.model.AvailabilitySlot;
+import com.doctorbookingsystem.doctorbooking.model.Doctor;
+import com.doctorbookingsystem.doctorbooking.model.Patient;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 
-import java.time.Instant;
-
+/**
+ * Data Transfer Object for Appointment.
+ */
 @Data
 public class AppointmentDTO {
 
     private String id;
-    @NotNull(message = "Patient ID is required")
-    @NotBlank(message = "Patient ID cannot be empty")
-    private String patientId;
+    private Doctor doctor;
 
-    @NotNull(message = "Doctor ID is required")
-    @NotBlank(message = "Doctor ID cannot be empty")
-    private String doctorId;
+    private Patient patient;
 
-    @NotNull(message = "Slot ID is required")
-    @NotBlank(message = "Slot ID cannot be empty")
-    private String slotId;
+    private AvailabilitySlot slot;
 
     private AppointmentStatus status;
 

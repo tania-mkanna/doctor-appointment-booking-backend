@@ -16,12 +16,11 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Patient {
-    @Id
-    private String id;
     private String fullName;
     private Gender gender;
     private LocalDate dateOfBirth;
     private List<String> allergies;
     private List<String> medicalHistory;
-    private String insuranceNumber;
+    private String insuranceNumber;//may be we will use it later
+    List<String> appointmentsIds;
 }

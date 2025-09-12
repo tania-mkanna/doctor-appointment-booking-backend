@@ -25,7 +25,15 @@ public interface AppointmentService {
     List<AppointmentDTO> getAppointmentsByDoctorId(String doctorId);
 
     /**
-     * Update the status of an appointment.
+     * Retrieve appointments by patient ID.
      */
-    AppointmentDTO updateAppointmentStatus(String doctorId, String appointmentId, AppointmentStatus status);
+    List<AppointmentDTO> getAppointmentsByPatientId(String patientId);
+
+    AppointmentDTO confirmAppointment(String doctorId, String appointmentId);
+
+    AppointmentDTO declineAppointment(String doctorId, String appointmentId);
+    /**
+     * Cancel an appointment by a patient.
+     */
+    AppointmentDTO cancelAppointment(String patientId, String appointmentId);
 }

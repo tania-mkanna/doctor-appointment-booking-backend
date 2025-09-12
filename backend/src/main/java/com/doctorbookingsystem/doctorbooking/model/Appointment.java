@@ -25,15 +25,6 @@ public class Appointment extends Audit {
     @Id
     private String id;
 
-    /**
-     * The patient associated with the appointment.
-     */
-    Patient patient;
-
-    /**
-     * The doctor associated with the appointment.
-     */
-    Doctor doctor;
 
     /**
      * The slot ID for the appointment.

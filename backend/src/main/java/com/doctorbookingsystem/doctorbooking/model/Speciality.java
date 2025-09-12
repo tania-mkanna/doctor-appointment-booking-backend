@@ -1,5 +1,8 @@
 package com.doctorbookingsystem.doctorbooking.model;
 
+import lombok.Data;
+
+@Data
 public class Speciality {
     private String name;
 

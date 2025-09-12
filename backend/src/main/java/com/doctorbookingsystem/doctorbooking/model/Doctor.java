@@ -1,7 +1,9 @@
 package com.doctorbookingsystem.doctorbooking.model;
 
 
+import com.doctorbookingsystem.doctorbooking.enums.Gender;
 import com.doctorbookingsystem.doctorbooking.enums.VerificationStatus;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
@@ -18,13 +20,21 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Doctor {
-    @Id
-    private String id;
-
     /**
      * List of medical specialties the doctor is proficient in.
      */
     private List<Speciality> specialties;
+
+    /**
+     * The full name of the doctor.
+     */
+    @NotNull
+    private String fullName;
+
+    /**
+     *
+     */
+    private Gender gender;
 
     /**
      * List of languages the doctor can communicate in.
@@ -77,4 +87,6 @@ public class Doctor {
      * Total number of reviews received by the doctor from patients.
      */
     private Integer reviewsCount;
+
+    List<String> appointmentsIds;
 }
