@@ -4,21 +4,29 @@ import com.doctorbookingsystem.doctorbooking.dto.AppointmentDTO;
 import com.doctorbookingsystem.doctorbooking.enums.AppointmentStatus;
 import com.doctorbookingsystem.doctorbooking.mapper.AppointmentMapper;
 import com.doctorbookingsystem.doctorbooking.model.Appointment;
+import com.doctorbookingsystem.doctorbooking.model.Doctor;
 import com.doctorbookingsystem.doctorbooking.repository.AppointmentRepository;
 import com.doctorbookingsystem.doctorbooking.service.interfaces.AppointmentService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
+@Service
 public class AppointmentServiceImpl implements AppointmentService {
 
     AppointmentRepository appointmentRepository;
     AppointmentMapper appointmentMapper;
+
+    public AppointmentServiceImpl(AppointmentRepository appointmentRepository, AppointmentMapper appointmentMapper) {
+        this.appointmentRepository = appointmentRepository;
+        this.appointmentMapper = appointmentMapper;
+    }
     @Override
     public List<AppointmentDTO> getAllAppointments() {
-        log.debug("Finding all appointments");
+        log.info("Finding all appointments");
         return appointmentRepository.findAll().stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
@@ -47,7 +55,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new RuntimeException("Appointment not found with id: " + appointmentId));
 
-        if (!appointment.getDoctorId().equals(doctorId)) {
+        Doctor doctor = appointment.getDoctor();
+        if (!doctor.getId().equals(doctorId)) {
             throw new RuntimeException("Doctor is not authorized to update this appointment");
         }
 
@@ -58,5 +67,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     private AppointmentDTO toDto(Appointment appointment) {
         return appointmentMapper.toDto(appointment);
+    }
+    private Appointment toEntity(AppointmentDTO appointmentDTO) {
+        return appointmentMapper.toEntity(appointmentDTO);
     }
 }

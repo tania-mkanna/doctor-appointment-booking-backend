@@ -14,8 +14,10 @@ import java.util.List;
 @RestController
 public class AppointmentController {
 
-    AppointmentService appointmentService;
-
+    private final AppointmentService appointmentService;
+    public AppointmentController(AppointmentService appointmentService) {
+        this.appointmentService = appointmentService;
+    }
     /**
      * Retrieve all appointments.
      */
@@ -29,19 +31,26 @@ public class AppointmentController {
     /**
      * Retrieve an appointment by its ID.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/{appointmentId}")
     public ResponseEntity<AppointmentDTO> getAppointmentById(@PathVariable String appointmentId) {
         log.info("Fetching appointment with id: {}", appointmentId);
          AppointmentDTO appointment = appointmentService.getAppointmentById(appointmentId);
          return ResponseEntity.ok(appointment);
     }
 
-    @GetMapping("/doctors/{id}")
+    /**
+     * Retrieve all appointments for a specific doctor by doctor ID.
+     */
+    @GetMapping("/doctors/{id}")// we have to put preauthorize for doctor so only doctor can see his appointments
     public ResponseEntity<List<AppointmentDTO>> getAppointmentsByDoctorId(@PathVariable String doctorId) {
         log.info("Fetching appointments for doctor with id: {}", doctorId);
         List<AppointmentDTO> appointments = appointmentService.getAppointmentsByDoctorId(doctorId);
         return ResponseEntity.ok(appointments);
     }
+
+    /**
+     * Update the status of an appointment by a doctor.
+     */
     @PutMapping("{doctorId}/update-status/{appointmentId}")
     public ResponseEntity<AppointmentDTO> updateAppointmentStatus(
             @PathVariable String doctorId,

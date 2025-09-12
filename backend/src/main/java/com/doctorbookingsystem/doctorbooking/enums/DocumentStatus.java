@@ -1,8 +1,7 @@
 package com.doctorbookingsystem.doctorbooking.enums;
 
-public enum VerificationStatus {
-
+public enum DocumentStatus {
     PENDING,
-    VERIFIED,
+    APPROVED,
     REJECTED
 }
