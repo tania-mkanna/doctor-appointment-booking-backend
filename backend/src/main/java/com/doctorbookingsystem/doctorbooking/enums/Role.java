@@ -2,7 +2,5 @@ package com.doctorbookingsystem.doctorbooking.enums;
 
 public enum Role {
 
-    ADMIN,
-    PATIENT,
-    DOCTOR
+    PATIENT, DOCTOR, ADMIN
 }
