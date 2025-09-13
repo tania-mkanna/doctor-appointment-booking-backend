@@ -32,9 +32,8 @@ public class UserServiceImpl implements UserService {
         Optional<User> optionalUser = userRepository.findById(userId);
 
         if (optionalUser.isEmpty()) {
-            System.err.println("Invalid user ID passed: " + userId);
             throw new NotFoundException("User not found with ID: " + userId);
         }
-        UserDTO userDTO = userMapper.toDto(optionalUser.get());
-        return Optional.of(userDTO);
+
+        return Optional.ofNullable(userMapper.toDto(optionalUser.get()));
 }}

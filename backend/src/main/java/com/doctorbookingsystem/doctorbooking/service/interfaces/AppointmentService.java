@@ -1,6 +1,7 @@
 package com.doctorbookingsystem.doctorbooking.service.interfaces;
 
 import com.doctorbookingsystem.doctorbooking.dto.AppointmentDTO;
+import com.doctorbookingsystem.doctorbooking.enums.AppointmentPriority;
 import com.doctorbookingsystem.doctorbooking.enums.AppointmentStatus;
 import org.springframework.stereotype.Service;
 
@@ -36,4 +37,7 @@ public interface AppointmentService {
      * Cancel an appointment by a patient.
      */
     AppointmentDTO cancelAppointment(String patientId, String appointmentId);
+
+    AppointmentDTO assignPriority(String appointmentId, AppointmentPriority priority);
+
 }

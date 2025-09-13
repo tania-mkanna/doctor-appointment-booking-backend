@@ -1,7 +1,7 @@
 package com.doctorbookingsystem.doctorbooking.controller;
 
 import com.doctorbookingsystem.doctorbooking.dto.AppointmentDTO;
-import com.doctorbookingsystem.doctorbooking.enums.AppointmentStatus;
+import com.doctorbookingsystem.doctorbooking.enums.AppointmentPriority;
 import com.doctorbookingsystem.doctorbooking.service.interfaces.AppointmentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +41,7 @@ public class AppointmentController {
     /**
      * Retrieve all appointments for a specific doctor by doctor ID.
      */
-    @GetMapping("/{doctorId}")// we have to put preauthorize for doctor so only doctor can see his appointments
+    @GetMapping("/doctor/{doctorId}")// we have to put preauthorize for doctor so only doctor can see his appointments
     public ResponseEntity<List<AppointmentDTO>> getAppointmentsByDoctorId(@PathVariable String doctorId) {
         log.info("Fetching appointments for doctor with id: {}", doctorId);
         List<AppointmentDTO> appointments = appointmentService.getAppointmentsByDoctorId(doctorId);
@@ -51,7 +51,7 @@ public class AppointmentController {
     /**
      * Retrieve all appointments for a specific doctor by doctor ID.
      */
-    @GetMapping("/{patientId}")// we have to put preauthorize for patient so only patient can see his appointments
+    @GetMapping("/patient/{patientId}")// we have to put preauthorize for patient so only patient can see his appointments
     public ResponseEntity<List<AppointmentDTO>> getAppointmentsByPatientId(@PathVariable String patientId) {
         log.info("Fetching appointments for doctor with id: {}", patientId);
         List<AppointmentDTO> appointments = appointmentService.getAppointmentsByPatientId(patientId);
@@ -85,6 +85,14 @@ public class AppointmentController {
             @PathVariable String patientId,
             @PathVariable String appointmentId) {
         AppointmentDTO appointmentDTO = appointmentService.cancelAppointment(patientId, appointmentId);
+        return ResponseEntity.ok(appointmentDTO);
+    }
+
+    @PutMapping("/{appointmentId}/assign-priority")
+    public ResponseEntity<AppointmentDTO> assignPriority(
+            @PathVariable String appointmentId,
+            @RequestParam AppointmentPriority priority) {
+        AppointmentDTO appointmentDTO = appointmentService.assignPriority(appointmentId, priority);
         return ResponseEntity.ok(appointmentDTO);
     }
 }

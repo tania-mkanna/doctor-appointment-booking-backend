@@ -88,5 +88,4 @@ public class Doctor {
      */
     private Integer reviewsCount;
 
-    List<String> appointmentsIds;
 }
