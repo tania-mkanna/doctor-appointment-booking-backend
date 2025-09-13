@@ -22,5 +22,4 @@ public class Patient {
     private List<String> allergies;
     private List<String> medicalHistory;
     private String insuranceNumber;//may be we will use it later
-    List<String> appointmentsIds;
 }

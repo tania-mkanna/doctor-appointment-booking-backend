@@ -17,9 +17,8 @@ import lombok.*;
 public class AppointmentDTO {
 
     private String id;
-    private Doctor doctor;
-
-    private Patient patient;
+    private String doctorId;
+    private String patientId;
 
     private AvailabilitySlot slot;
 
