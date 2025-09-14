@@ -2,6 +2,8 @@ package com.doctorbookingsystem.doctorbooking.model;
 
 
 import com.doctorbookingsystem.doctorbooking.enums.Role;
+
+import jakarta.validation.Valid;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -41,7 +43,6 @@ public class User extends Audit{
 
     @Field("avatarUrl")
     private String avatarUrl;
-
     private Doctor doctor;
     private Patient patient;
 
