@@ -2,6 +2,10 @@ package com.doctorbookingsystem.doctorbooking.repository;
 
 import com.doctorbookingsystem.doctorbooking.enums.Role;
 import com.doctorbookingsystem.doctorbooking.model.User;
+import com.mongodb.client.model.geojson.Point;
+
+import org.springframework.data.geo.Distance;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
@@ -19,4 +23,8 @@ public interface UserRepository extends MongoRepository<User, String> {
     List<User> findDoctorsByRoleAndSpecialties(Role role ,String specialtyName);
     // search doctors by city (case insensitive)
     List<User> findByRoleAndDoctorCityIgnoreCaseContaining(Role role ,String city);
+
+
+    // find neerby doctors within a certain distance from a given location
+    List<User> findByRoleAndDoctorClinicLocationNear(Role role, GeoJsonPoint location, Distance distance);     
 }

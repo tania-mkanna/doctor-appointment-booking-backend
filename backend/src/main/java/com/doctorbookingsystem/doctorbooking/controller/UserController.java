@@ -34,4 +34,10 @@ public class UserController {
     public List<DoctorPatientViewDTO> searchDoctors(@RequestParam(required = false)  String text) {
         return userService.searchDoctors(text);
     }
+
+    // implement findNearbyDoctors endpoint
+    @GetMapping("/doctors/nearby")
+    public List<DoctorPatientViewDTO> findNearbyDoctors(@RequestParam double latitude, @RequestParam double longitude) {
+        return userService.findNearbyDoctors(latitude, longitude);
+    }
 }

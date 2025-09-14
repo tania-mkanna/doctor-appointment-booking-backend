@@ -14,6 +14,6 @@ public interface UserService {
 
     Optional<UserDTO> findUserById(String userId);
     List<DoctorPatientViewDTO> searchDoctors(String text);
-   
+    List<DoctorPatientViewDTO> findNearbyDoctors(double latitude, double longitude);
 }
 

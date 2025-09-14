@@ -23,6 +23,7 @@ public class Doctor {
     /**
      * List of medical specialties the doctor is proficient in.
      */
+    @NotNull
     private List<Speciality> specialties;
 
     /**
@@ -34,6 +35,7 @@ public class Doctor {
     /**
      *
      */
+    @NotNull
     private Gender gender;
 
     /**
@@ -44,6 +46,7 @@ public class Doctor {
     /**
      * Years of experience the doctor has in their medical practice.
      */
+    @NotNull
     private int yearsOfExperience;
 
     /**

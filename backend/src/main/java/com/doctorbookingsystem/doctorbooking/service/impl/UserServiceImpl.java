@@ -13,6 +13,11 @@ import com.doctorbookingsystem.doctorbooking.model.User;
 import com.doctorbookingsystem.doctorbooking.repository.UserRepository;
 import com.doctorbookingsystem.doctorbooking.service.interfaces.UserService;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.Metric;
+import org.springframework.data.geo.Metrics;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -82,6 +87,35 @@ public class UserServiceImpl implements UserService {
         return uniqueDoctors;
 
             
+    }
+
+    // implement findNearbyDoctors method
+    @Override
+    public List<DoctorPatientViewDTO> findNearbyDoctors(double latitude, double longitude) {
+        log.info("Finding nearby doctors for location: ({}, {})", latitude, longitude);
+
+        // validate latitude and longitude
+        // latitude must be between -90 and 90 (north and south poles)
+        if(latitude < -90 || latitude > 90) {
+            throw new InvalidRequestException("Invalid latitude value. It must be between -90 and 90.");
+        }
+        // longitude must be between -180 and 180 (east and west)
+        if(longitude < -180 || longitude > 180) {
+            throw new InvalidRequestException("Invalid longitude value. It must be between -180 and 180.");
+        }
+        // create GeoJsonPoint for the given location
+        GeoJsonPoint location = new GeoJsonPoint(longitude, latitude);
+
+        // define a distance of 5 km
+        Distance maxDistance= new Distance(5,Metrics.KILOMETERS);
+
+        // find nearby doctors
+        List<User> nearbyDoctors = userRepository.findByRoleAndDoctorClinicLocationNear(Role.DOCTOR, location, maxDistance);
+
+        // map to DTOs
+        return nearbyDoctors.stream()
+                .map(doctorPatientViewMapper::toDto)
+                .collect(Collectors.toList());
     }
 
 }
