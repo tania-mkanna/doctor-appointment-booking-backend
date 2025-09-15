@@ -1,8 +1,6 @@
 package com.doctorbookingsystem.doctorbooking.enums;
 
-public enum Role {
-
-    ADMIN,
-    PATIENT,
-    DOCTOR
+public enum Gender {
+    MALE,
+    FEMALE
 }

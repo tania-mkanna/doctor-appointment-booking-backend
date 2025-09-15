@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Document(collection = "review")
+@Document(collection = "reviews")
 public class Review extends Audit{
 
     @Id
