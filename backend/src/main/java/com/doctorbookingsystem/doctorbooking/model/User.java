@@ -46,4 +46,23 @@ public class User extends Audit{
     private Doctor doctor;
     private Patient patient;
 
+    // method equals and hashcode based on id only
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id != null && id.equals(user.id);
+    }
+
+    @Override
+    public int hashCode() { 
+        if(id == null) {
+            return 0;
+        }
+        else {
+            return id.hashCode();
+        }
+    }
+
 }
