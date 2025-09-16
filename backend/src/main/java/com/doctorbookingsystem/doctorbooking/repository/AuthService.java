@@ -1,10 +1,9 @@
 package com.doctorbookingsystem.doctorbooking.repository;
 
-import com.doctorbookingsystem.doctorbooking.dto.AuthenticationResponse;
-import com.doctorbookingsystem.doctorbooking.dto.LoginRequest;
-import com.doctorbookingsystem.doctorbooking.dto.RegisterRequest;
+import com.doctorbookingsystem.doctorbooking.dto.*;
 
 public interface AuthService {
-    AuthenticationResponse register(RegisterRequest request);
+    AuthenticationResponse patientRegister(PatientRegisterRequest request);
+    AuthenticationResponse DoctorRegister(DoctorRegisterRequest request);
     AuthenticationResponse authenticate(LoginRequest request);
 }

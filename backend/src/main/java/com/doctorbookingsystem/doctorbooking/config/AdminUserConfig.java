@@ -15,7 +15,7 @@ public class AdminUserConfig {
                 .orElseGet(() -> {
                     User admin = new User();
                     admin.setEmail("admin@gmail.com");
-                    admin.setPasswordHash(passwordEncoder.encode("admin"));
+                    admin.setPassword(passwordEncoder.encode("admin"));
                     admin.setRole(Role.ADMIN);
                     return userRepository.save(admin);
                 });

@@ -1,9 +1,10 @@
 package com.doctorbookingsystem.doctorbooking.service.impl;
 
-import com.doctorbookingsystem.doctorbooking.dto.AuthenticationResponse;
-import com.doctorbookingsystem.doctorbooking.dto.LoginRequest;
-import com.doctorbookingsystem.doctorbooking.dto.RegisterRequest;
+import com.doctorbookingsystem.doctorbooking.dto.*;
+import com.doctorbookingsystem.doctorbooking.enums.Role;
 import com.doctorbookingsystem.doctorbooking.model.CustomUserDetails;
+import com.doctorbookingsystem.doctorbooking.model.Doctor;
+import com.doctorbookingsystem.doctorbooking.model.Patient;
 import com.doctorbookingsystem.doctorbooking.model.User;
 import com.doctorbookingsystem.doctorbooking.repository.AuthService;
 import com.doctorbookingsystem.doctorbooking.repository.UserRepository;
@@ -27,10 +28,44 @@ public class AuthServiceImpl implements AuthService {
     private JwtServiceImpl jwtService;
     @Autowired
     private AuthenticationManager authenticationManager;
+
     @Override
-    public AuthenticationResponse register(RegisterRequest request) {
-        var user= User.builder().fullName(request.getName())
-                .email(request.getEmail()).role(request.getRole()).passwordHash(passwordEncoder.encode(request.getPassword())).build();
+    public AuthenticationResponse patientRegister(PatientRegisterRequest request) {
+        var patient= Patient.builder().fullName(request.getFullName())
+                .gender(request.getGender())
+                .dateOfBirth(request.getDateOfBirth())
+                .allergies(request.getAllergies())
+                .medicalHistory(request.getMedicalHistory())
+                .insuranceNumber(request.getInsuranceNumber())
+                .build();
+        var user= User.builder().userName(request.getName())
+                .email(request.getEmail()).role(Role.PATIENT).password(passwordEncoder.encode(request.getPassword()))
+                .patient(patient)
+                .build();
+        userRepository.save(user);
+        CustomUserDetails userDetails= CustomUserDetails.builder().user(user)
+                .authorities(List.of(() -> user.getRole().name()))
+                .build();
+        var jwtToken=jwtService.generatedToken(userDetails);
+        return AuthenticationResponse.builder().token(jwtToken).build();
+    }
+
+    @Override
+    public AuthenticationResponse DoctorRegister(DoctorRegisterRequest request) {
+        var doctor= Doctor.builder()
+                .fullName(request.getFullName())
+                .gender(request.getGender())
+                .languages(request.getLanguages())
+                .yearsOfExperience(request.getYearsOfExperience())
+                .bio(request.getBio())
+                .clinicLocation(request.getClinicLocation())
+                .city(request.getCity())
+                .services(request.getServices())
+                .specialties(request.getSpecialties()).build();
+        var user= User.builder().userName(request.getName())
+                .email(request.getEmail()).role(Role.DOCTOR).password(passwordEncoder.encode(request.getPassword()))
+                .doctor(doctor)
+                .build();
         userRepository.save(user);
         CustomUserDetails userDetails= CustomUserDetails.builder().user(user)
                 .authorities(List.of(() -> user.getRole().name()))

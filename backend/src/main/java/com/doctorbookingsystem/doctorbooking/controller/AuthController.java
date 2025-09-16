@@ -1,8 +1,9 @@
 package com.doctorbookingsystem.doctorbooking.controller;
 
 import com.doctorbookingsystem.doctorbooking.dto.AuthenticationResponse;
+import com.doctorbookingsystem.doctorbooking.dto.DoctorRegisterRequest;
 import com.doctorbookingsystem.doctorbooking.dto.LoginRequest;
-import com.doctorbookingsystem.doctorbooking.dto.RegisterRequest;
+import com.doctorbookingsystem.doctorbooking.dto.PatientRegisterRequest;
 import com.doctorbookingsystem.doctorbooking.repository.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final AuthService authService;
 
-    @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody RegisterRequest request){
-        return ResponseEntity.ok(authService.register(request));
+    @PostMapping("/register-patient")
+    public ResponseEntity<AuthenticationResponse> registerPatient(@Valid @RequestBody PatientRegisterRequest request){
+        return ResponseEntity.ok(authService.patientRegister(request));
+    }
+    @PostMapping("/register-doctor")
+    public ResponseEntity<AuthenticationResponse> registerDoctor(@Valid @RequestBody DoctorRegisterRequest request){
+        return ResponseEntity.ok(authService.DoctorRegister(request));
     }
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody LoginRequest request){
