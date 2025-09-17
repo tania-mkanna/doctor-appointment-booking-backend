@@ -95,4 +95,26 @@ public class AppointmentController {
         AppointmentDTO appointmentDTO = appointmentService.assignPriority(appointmentId, priority);
         return ResponseEntity.ok(appointmentDTO);
     }
+
+    @PostMapping
+    public ResponseEntity<AppointmentDTO> createAppointment(@RequestBody AppointmentDTO dto) {
+        AppointmentDTO createdAppointment = appointmentService.createAppointment(
+                dto.getPatientId(),
+                dto.getDoctorId(),
+                dto.getSlot(),
+                dto.getCaseType()
+        );
+        return ResponseEntity.ok(createdAppointment);
+    }
+
+    @PutMapping("{doctorId}/{appointmentId}/complete")
+    public ResponseEntity<AppointmentDTO> completeAppointment(  
+            @PathVariable String doctorId,
+            @PathVariable String appointmentId) {
+        return ResponseEntity.ok(appointmentService.completeAppointment(doctorId, appointmentId));
+    }
+
+
+   
 }
+
