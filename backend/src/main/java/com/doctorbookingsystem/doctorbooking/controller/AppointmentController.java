@@ -49,7 +49,7 @@ public class AppointmentController {
     }
 
     /**
-     * Retrieve all appointments for a specific doctor by doctor ID.
+     * Retrieve all appointments for a specific patient by patient ID.
      */
     @GetMapping("/patient/{patientId}")// we have to put preauthorize for patient so only patient can see his appointments
     public ResponseEntity<List<AppointmentDTO>> getAppointmentsByPatientId(@PathVariable String patientId) {
@@ -96,17 +96,22 @@ public class AppointmentController {
         return ResponseEntity.ok(appointmentDTO);
     }
 
+    // create an appointment
     @PostMapping
     public ResponseEntity<AppointmentDTO> createAppointment(@RequestBody AppointmentDTO dto) {
         AppointmentDTO createdAppointment = appointmentService.createAppointment(
                 dto.getPatientId(),
                 dto.getDoctorId(),
                 dto.getSlot(),
-                dto.getCaseType()
+                dto.getCaseType(),
+                dto.getNotes()
         );
         return ResponseEntity.ok(createdAppointment);
     }
 
+    /**
+     * Mark an appointment as completed by doctor.
+     */
     @PutMapping("{doctorId}/{appointmentId}/complete")
     public ResponseEntity<AppointmentDTO> completeAppointment(  
             @PathVariable String doctorId,

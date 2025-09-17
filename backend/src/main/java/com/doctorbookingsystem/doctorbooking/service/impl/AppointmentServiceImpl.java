@@ -192,7 +192,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
 //create appointment
-public AppointmentDTO createAppointment(String patientId, String doctorId,  AvailabilitySlot slotFromDTO, CaseType caseType){
+public AppointmentDTO createAppointment(String patientId, String doctorId,  AvailabilitySlot slotFromDTO, CaseType caseType,String notes){
+        log.info("Creating appointment for patientId: {} with doctorId: {}", patientId, doctorId);
 
 //        check if inputs are valid
         User doctor=userRepository.findById(doctorId)

@@ -2,7 +2,7 @@ package com.doctorbookingsystem.doctorbooking.service.interfaces;
 
 import com.doctorbookingsystem.doctorbooking.dto.AppointmentDTO;
 import com.doctorbookingsystem.doctorbooking.enums.AppointmentPriority;
-import com.doctorbookingsystem.doctorbooking.enums.AppointmentStatus;
+
 import com.doctorbookingsystem.doctorbooking.enums.CaseType;
 import com.doctorbookingsystem.doctorbooking.model.AvailabilitySlot;
 import org.springframework.stereotype.Service;
@@ -43,10 +43,10 @@ public interface AppointmentService {
     AppointmentDTO assignPriority(String appointmentId, AppointmentPriority priority);
 
 
-    // complete an appointment 
+    // mark an appointment as completed by doctor 
     AppointmentDTO completeAppointment(String doctorId, String appointmentId);
 
 //    create an appointment
-AppointmentDTO createAppointment(String patientId, String doctorID, AvailabilitySlot slotFromDTO, CaseType caseType);
+AppointmentDTO createAppointment(String patientId, String doctorID, AvailabilitySlot slotFromDTO, CaseType caseType,String notes);
 
 }
