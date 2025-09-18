@@ -43,6 +43,7 @@ public class User extends Audit{
     private String avatarUrl;
 
     private Doctor doctor;
+
     private Patient patient;
 
 }

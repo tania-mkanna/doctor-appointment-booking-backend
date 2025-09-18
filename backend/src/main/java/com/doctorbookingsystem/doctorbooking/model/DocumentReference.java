@@ -28,5 +28,6 @@ public class DocumentReference {
      * Status of the document verification (e.g., "PENDING", "APPROVED", "REJECTED")
      */
     @Field("status")
-    private DocumentStatus status;
+    @Builder.Default
+    private DocumentStatus status = DocumentStatus.PENDING;
 }
