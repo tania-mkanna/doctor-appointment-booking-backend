@@ -1,6 +1,7 @@
 package com.doctorbookingsystem.doctorbooking.controller;
 
 import com.doctorbookingsystem.doctorbooking.dto.DocumentReferenceDto;
+import com.doctorbookingsystem.doctorbooking.dto.UserDTO;
 import com.doctorbookingsystem.doctorbooking.enums.DocumentType;
 import com.doctorbookingsystem.doctorbooking.model.DocumentReference;
 import com.doctorbookingsystem.doctorbooking.service.interfaces.UserService;
@@ -22,6 +23,23 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
+
+    /**
+     * Retrieve a user by their ID.
+     */
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> getUserById(@PathVariable("id") String userId) {
+        log.info("Fetching user with id: {}", userId);
+        UserDTO user = userService.getUserById(userId);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
     /**
      * Upload a document for a doctor.
