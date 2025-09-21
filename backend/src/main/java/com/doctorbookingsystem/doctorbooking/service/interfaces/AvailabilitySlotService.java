@@ -18,7 +18,7 @@ public interface AvailabilitySlotService {
     List<AvailabilitySlot>getAvailableSlotsForDoctor(String doctorId);
 
 //    create a slot for a doctor
-    AvailabilitySlot createSlot(AvailabilitySlot slot);
+    AvailabilitySlot createSlot(AvailabilitySlot slot,String doctorId);
 
 //    mark a slot as booked (isBooked=true)
     AvailabilitySlot markSlotAsBooked(String slotId);

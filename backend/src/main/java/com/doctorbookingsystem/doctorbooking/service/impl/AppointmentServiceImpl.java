@@ -192,22 +192,22 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
 //create appointment
-public AppointmentDTO createAppointment(String patientId, String doctorId,  AvailabilitySlot slotFromDTO, CaseType caseType,String notes){
+public AppointmentDTO createAppointment(String patientId, String doctorId,  AvailabilitySlot availabilitySlot, CaseType caseType,String notes){
         log.info("Creating appointment for patientId: {} with doctorId: {}", patientId, doctorId);
 
 //        check if inputs are valid
         User doctor=userRepository.findById(doctorId)
                 .orElseThrow(()->new RuntimeException("Doctor not found with id: " + doctorId));
 
-        User patient=userRepository.findById(patientId)
+        User patient=userRepository.findById(patientId) 
             .orElseThrow(()->new RuntimeException("Patient not exist"));
 
 
-        if (slotFromDTO == null || slotFromDTO.getId() == null) {
+        if (availabilitySlot == null || availabilitySlot.getId() == null) {
             throw new RuntimeException("Slot ID is required");
     }
 
-    AvailabilitySlot slot = availabilitySlotService.markSlotAsBooked(slotFromDTO.getId());
+    AvailabilitySlot slot = availabilitySlotService.markSlotAsBooked(availabilitySlot.getId());
 
 //    build appointment
     Appointment appointment = Appointment.builder()

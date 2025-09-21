@@ -42,7 +42,14 @@ public class AvailabilitySlotServiceImpl implements AvailabilitySlotService {
     }
 //create a slot
     @Override
-    public AvailabilitySlot createSlot(AvailabilitySlot slot){
+    public AvailabilitySlot createSlot(AvailabilitySlot slot,String doctorId){
+        log.info("Doctor {} create a slot from {} to {}",doctorId,slot.getStart(),slot.getEnd());
+
+        if(slot.getStart().isAfter(slot.getEnd()) || slot.getStart().equals(slot.getEnd())){
+            throw new RuntimeException("start must be before end ");
+        }
+
+        slot.setDoctorId(doctorId);
         slot.setBooked(false);
         return availabilitySlotRepository.save(slot);
     }
