@@ -23,5 +23,8 @@ public interface AvailabilitySlotService {
 //    mark a slot as booked (isBooked=true)
     AvailabilitySlot markSlotAsBooked(String slotId);
 
+//    doctor can delete a slot
+AvailabilitySlot deleteSlot(String doctorId,String slotId);
+
 
 }

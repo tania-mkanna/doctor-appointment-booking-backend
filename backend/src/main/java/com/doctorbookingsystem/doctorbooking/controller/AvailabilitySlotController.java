@@ -42,5 +42,13 @@ public class AvailabilitySlotController {
         return availabilitySlotService.getAvailableSlotsForDoctor(doctorId);
     }
 
+//    doctor delete a slot
+    @DeleteMapping("/doctor/{doctorId}/slot/{slotId}")
+    public ResponseEntity<AvailabilitySlot> deleteSlot(@PathVariable("doctorId")  String doctorId, @PathVariable("slotId") String slotId){
+
+        log.info("doctorId :{} delete a slotId :{}",doctorId,slotId);
+        return ResponseEntity.ok(availabilitySlotService.deleteSlot(doctorId,slotId));
+    }
+
 
 }

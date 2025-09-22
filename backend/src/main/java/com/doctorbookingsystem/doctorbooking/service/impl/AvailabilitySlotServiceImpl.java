@@ -1,6 +1,7 @@
 package com.doctorbookingsystem.doctorbooking.service.impl;
 
 import com.doctorbookingsystem.doctorbooking.model.AvailabilitySlot;
+import com.doctorbookingsystem.doctorbooking.model.Doctor;
 import com.doctorbookingsystem.doctorbooking.repository.AvailabilitySlotRepository;
 import com.doctorbookingsystem.doctorbooking.service.interfaces.AvailabilitySlotService;
 import lombok.extern.slf4j.Slf4j;
@@ -68,5 +69,24 @@ public class AvailabilitySlotServiceImpl implements AvailabilitySlotService {
         return availabilitySlotRepository.save(slot);
 
     }
+    //    doctor can delete a slot
+    @Override
+    public AvailabilitySlot deleteSlot(String doctorId,String slotId){
+        AvailabilitySlot slot=availabilitySlotRepository.findById(slotId)
+                .orElseThrow(() -> new RuntimeException("Slot not found"));
+
+        if(! slot.getDoctorId().equals(doctorId)){
+            throw new RuntimeException("Doctor should delete his slot not other doctor's slot");
+        }
+
+        if(slot.isBooked()){
+            throw new RuntimeException("the Slot is already booked");
+
+        }
+        AvailabilitySlot deletedSlot =slot;
+        availabilitySlotRepository.delete(slot);
+        return deletedSlot;
+    }
+
 }
 
