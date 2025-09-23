@@ -19,5 +19,11 @@ public interface UserService {
 
 //    patient profile
     UserDTO getPatientProfile(String patientId);
+
+//    search doctor by name, city or specialty
+    List<DoctorPatientViewDTO> searchDoctors(String text);
+//    find nearby doctors (max:5km)
+    List<DoctorPatientViewDTO> findNearbyDoctors(double latitude, double longitude);
 }
+
 
