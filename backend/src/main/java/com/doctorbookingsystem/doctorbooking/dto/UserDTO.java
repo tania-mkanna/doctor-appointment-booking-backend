@@ -4,11 +4,15 @@ import com.doctorbookingsystem.doctorbooking.enums.Role;
 import com.doctorbookingsystem.doctorbooking.model.Doctor;
 import com.doctorbookingsystem.doctorbooking.model.Patient;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.val;
 
 /**
  * Data Transfer Object for User entity.
@@ -37,7 +41,8 @@ public class UserDTO {
 
     private String avatarUrl;
 
+    @Valid
     private Doctor doctor;
-
+    @Valid
     private Patient patient;
 }

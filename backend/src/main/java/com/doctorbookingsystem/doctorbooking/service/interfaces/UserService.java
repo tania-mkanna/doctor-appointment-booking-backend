@@ -1,8 +1,10 @@
 package com.doctorbookingsystem.doctorbooking.service.interfaces;
 
 
+import com.doctorbookingsystem.doctorbooking.dto.DoctorPatientViewDTO;
 import com.doctorbookingsystem.doctorbooking.dto.UserDTO;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
