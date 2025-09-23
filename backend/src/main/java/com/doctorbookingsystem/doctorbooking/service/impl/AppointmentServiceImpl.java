@@ -4,11 +4,14 @@ import com.doctorbookingsystem.doctorbooking.dto.AppointmentDTO;
 import com.doctorbookingsystem.doctorbooking.dto.UserDTO;
 import com.doctorbookingsystem.doctorbooking.enums.AppointmentPriority;
 import com.doctorbookingsystem.doctorbooking.enums.AppointmentStatus;
+import com.doctorbookingsystem.doctorbooking.enums.CaseType;
 import com.doctorbookingsystem.doctorbooking.exception.InvalidRequestException;
 import com.doctorbookingsystem.doctorbooking.exception.NotFoundException;
 import com.doctorbookingsystem.doctorbooking.mapper.AppointmentMapper;
 import com.doctorbookingsystem.doctorbooking.model.*;
 import com.doctorbookingsystem.doctorbooking.repository.AppointmentRepository;
+import com.doctorbookingsystem.doctorbooking.repository.AvailabilitySlotRepository;
+import com.doctorbookingsystem.doctorbooking.repository.UserRepository;
 import com.doctorbookingsystem.doctorbooking.service.interfaces.AppointmentService;
 import com.doctorbookingsystem.doctorbooking.service.interfaces.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,11 +27,16 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final UserService userService;
     private final AppointmentMapper appointmentMapper;
+    private final UserRepository userRepository;
+    private final AvailabilitySlotServiceImpl availabilitySlotService;
 
-    public AppointmentServiceImpl(AppointmentRepository appointmentRepository, UserService userService, AppointmentMapper appointmentMapper) {
+    public AppointmentServiceImpl(AppointmentRepository appointmentRepository, UserService userService, AppointmentMapper appointmentMapper,UserRepository userRepository,AvailabilitySlotServiceImpl availabilitySlotService) {
         this.appointmentRepository = appointmentRepository;
         this.userService = userService;
         this.appointmentMapper = appointmentMapper;
+        this.userRepository=userRepository;
+
+        this.availabilitySlotService=availabilitySlotService;
     }
     @Override
     public List<AppointmentDTO> getAllAppointments() {
@@ -183,7 +191,58 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointment;
     }
 
+//create appointment
+public AppointmentDTO createAppointment(String patientId, String doctorId,  AvailabilitySlot availabilitySlot, CaseType caseType,String notes){
+        log.info("Creating appointment for patientId: {} with doctorId: {}", patientId, doctorId);
 
+//        check if inputs are valid
+        User doctor=userRepository.findById(doctorId)
+                .orElseThrow(()->new RuntimeException("Doctor not found with id: " + doctorId));
+
+        User patient=userRepository.findById(patientId) 
+            .orElseThrow(()->new RuntimeException("Patient not exist"));
+
+
+        if (availabilitySlot == null || availabilitySlot.getId() == null) {
+            throw new RuntimeException("Slot ID is required");
+    }
+
+    AvailabilitySlot slot = availabilitySlotService.markSlotAsBooked(availabilitySlot.getId());
+
+//    build appointment
+    Appointment appointment = Appointment.builder()
+            .doctor(doctor)
+            .patient(patient)
+            .slot(slot)
+            .status(AppointmentStatus.REQUESTED)
+            .caseType(caseType)
+            .priority(AppointmentPriority.LOW)
+            .build();
+
+    Appointment savedAppointment = appointmentRepository.save(appointment);
+
+    return  appointmentMapper.toDto(savedAppointment);
+    }
+
+//doctor complete appointment
+    @Override
+    public AppointmentDTO completeAppointment(String doctorId, String appointmentId) {
+        log.info("Completing appointmentId: {} by doctorId: {}", appointmentId, doctorId);
+
+        Appointment appointment = getAndValidateDoctorAppointment(doctorId, appointmentId);
+
+        if (appointment.getStatus() != AppointmentStatus.CONFIRMED) {
+            throw new InvalidRequestException("Only appointments in CONFIRMED status can be completed.");
+        }
+
+        appointment.setStatus(AppointmentStatus.COMPLETED);
+        return appointmentMapper.toDto(appointmentRepository.save(appointment));
+    }
 
 
 }
+
+
+
+
+

@@ -1,6 +1,7 @@
 package com.doctorbookingsystem.doctorbooking.repository;
 
 import com.doctorbookingsystem.doctorbooking.model.Appointment;
+import com.doctorbookingsystem.doctorbooking.model.AvailabilitySlot;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
