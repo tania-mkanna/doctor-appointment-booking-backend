@@ -13,7 +13,11 @@ import java.util.Optional;
 public interface UserService {
 
     Optional<UserDTO> findUserById(String userId);
-    List<DoctorPatientViewDTO> searchDoctors(String text);
-    List<DoctorPatientViewDTO> findNearbyDoctors(double latitude, double longitude);
+
+//    doctor's profile
+    UserDTO getDoctorProfile(String doctorId);
+
+//    patient profile
+    UserDTO getPatientProfile(String patientId);
 }
 

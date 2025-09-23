@@ -32,13 +32,14 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     private final UserMapper userMapper;
+
     private final DoctorPatientViewMapper doctorPatientViewMapper;
     public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, DoctorPatientViewMapper doctorPatientViewMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+
         this.doctorPatientViewMapper = doctorPatientViewMapper;
     }
-
     @Override
     public Optional<UserDTO> findUserById(String userId) {
         log.info("Finding user with id: {}", userId);
@@ -54,14 +55,37 @@ public class UserServiceImpl implements UserService {
         return Optional.ofNullable(userMapper.toDto(optionalUser.get()));
     }
 
-   
+//    doctor's profile
+    public UserDTO getDoctorProfile(String doctorId){
+        UserDTO userDTO =findUserById(doctorId)
+                .orElseThrow(()->new RuntimeException("doctor not found"));
 
+        if(userDTO.getRole() != Role.DOCTOR ){
+            throw new RuntimeException("the user is not Doctor");
+        }
+
+
+        return userDTO;
+
+    }
+
+//    Patient profile
+    public UserDTO getPatientProfile(String patientId){
+        UserDTO userDTO =findUserById(patientId)
+                .orElseThrow(()-> new RuntimeException("Patient is not exits"));
+
+        if(userDTO.getRole() != Role.PATIENT ){
+            throw new RuntimeException("the user is not Patient");
+        }
+
+        return userDTO;
+
+    }
 
     // implement searchDoctors method
 
-    @Override
     public List<DoctorPatientViewDTO> searchDoctors(String text) {
-        
+
         log.info("Searching doctors with text: {}", text);
 
         if(text == null || text.isBlank()) {
@@ -70,9 +94,9 @@ public class UserServiceImpl implements UserService {
         // search by name, specialty, city
         List<User> doctorsByName = userRepository.findByRoleAndDoctorFullNameIgnoreCaseContaining(Role.DOCTOR, text);
         List<User> doctorsBySpecialty = userRepository.findDoctorsByRoleAndSpecialties(Role.DOCTOR, text);
-        List<User> doctorsByCity = userRepository.findByRoleAndDoctorCityIgnoreCaseContaining(Role.DOCTOR, text);  
+        List<User> doctorsByCity = userRepository.findByRoleAndDoctorCityIgnoreCaseContaining(Role.DOCTOR, text);
 
-        // combine results 
+        // combine results
         List<User> combinedDoctors = new ArrayList<>();
         combinedDoctors.addAll(doctorsByName);
         combinedDoctors.addAll(doctorsBySpecialty);
@@ -86,11 +110,10 @@ public class UserServiceImpl implements UserService {
 
         return uniqueDoctors;
 
-            
+
     }
 
     // implement findNearbyDoctors method
-    @Override
     public List<DoctorPatientViewDTO> findNearbyDoctors(double latitude, double longitude) {
         log.info("Finding nearby doctors for location: ({}, {})", latitude, longitude);
 
