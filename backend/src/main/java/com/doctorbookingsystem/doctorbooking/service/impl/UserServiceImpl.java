@@ -1,6 +1,7 @@
 package com.doctorbookingsystem.doctorbooking.service.impl;
 
 import com.doctorbookingsystem.doctorbooking.dto.UserDTO;
+import com.doctorbookingsystem.doctorbooking.enums.Role;
 import com.doctorbookingsystem.doctorbooking.exception.InvalidRequestException;
 import com.doctorbookingsystem.doctorbooking.exception.NotFoundException;
 import com.doctorbookingsystem.doctorbooking.mapper.UserMapper;
@@ -18,9 +19,11 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+
     public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+
     }
 
     @Override
@@ -36,4 +39,35 @@ public class UserServiceImpl implements UserService {
         }
 
         return Optional.ofNullable(userMapper.toDto(optionalUser.get()));
-}}
+    }
+
+//    doctor's profile
+    public UserDTO getDoctorProfile(String doctorId){
+        UserDTO userDTO =findUserById(doctorId)
+                .orElseThrow(()->new RuntimeException("doctor not found"));
+
+        if(userDTO.getRole() != Role.DOCTOR ){
+            throw new RuntimeException("the user is not Doctor");
+        }
+
+
+        return userDTO;
+
+    }
+
+//    Patient profile
+    public UserDTO getPatientProfile(String patientId){
+        UserDTO userDTO =findUserById(patientId)
+                .orElseThrow(()-> new RuntimeException("Patient is not exits"));
+
+        if(userDTO.getRole() != Role.PATIENT ){
+            throw new RuntimeException("the user is not Patient");
+        }
+
+        return userDTO;
+
+    }
+
+
+}
+

@@ -3,6 +3,7 @@ package com.doctorbookingsystem.doctorbooking.dto;
 import com.doctorbookingsystem.doctorbooking.enums.Role;
 import com.doctorbookingsystem.doctorbooking.model.Doctor;
 import com.doctorbookingsystem.doctorbooking.model.Patient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,6 +27,7 @@ public class UserDTO {
     @Email(message = "Invalid email format")
     private String email;
 
+    @JsonIgnore
     private String password;
 
     private String phoneNumber;
