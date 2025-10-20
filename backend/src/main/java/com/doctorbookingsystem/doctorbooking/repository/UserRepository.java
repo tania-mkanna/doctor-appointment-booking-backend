@@ -1,6 +1,8 @@
 package com.doctorbookingsystem.doctorbooking.repository;
 
+import com.doctorbookingsystem.doctorbooking.enums.DocumentStatus;
 import com.doctorbookingsystem.doctorbooking.enums.Role;
+import com.doctorbookingsystem.doctorbooking.enums.VerificationStatus;
 import com.doctorbookingsystem.doctorbooking.model.User;
 import com.mongodb.client.model.geojson.Point;
 
@@ -25,6 +27,17 @@ public interface UserRepository extends MongoRepository<User, String> {
     List<User> findByRoleAndDoctorCityIgnoreCaseContaining(Role role ,String city);
 
 
-    // find neerby doctors within a certain distance from a given location
-    List<User> findByRoleAndDoctorClinicLocationNear(Role role, GeoJsonPoint location, Distance distance);     
+    // find nearby doctors within a certain distance from a given location
+    List<User> findByRoleAndDoctorClinicLocationNear(Role role, GeoJsonPoint location, Distance distance);
+
+
+    List<User> findByRole(Role role);
+
+    //  get doctors with their verification status
+    List<User> findByRoleAndDoctorVerificationStatus(Role role, VerificationStatus verificationStatus);
+
+    //get doctors with their reference documents
+    @Query("{ 'role': ?0, 'doctor.documents.status':?1}")
+    List<User> findByRoleAndDoctorDocuments(Role role, DocumentStatus status);
+
 }
