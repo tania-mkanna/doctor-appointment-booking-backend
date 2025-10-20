@@ -32,6 +32,6 @@ public class MedicalDocument extends Audit{
     @Field("fileUrl")
     private String fileUrl;
 
-    @Field("createdAt")
+    @Field("documentCreatedAt")
     private Instant createdAt;
 }
