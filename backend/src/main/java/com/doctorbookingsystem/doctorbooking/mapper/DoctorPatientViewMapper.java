@@ -8,6 +8,8 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface DoctorPatientViewMapper {
 
+    @Mapping(source = "id",target = "id")
+    @Mapping(source = "avatarUrl", target = "avatarUrl")
     @Mapping(source = "doctor.fullName", target = "fullName")
     @Mapping(source = "doctor.avgRating", target = "avgRating")
     @Mapping(source = "doctor.reviewsCount", target = "reviewsCount")

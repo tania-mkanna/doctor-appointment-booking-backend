@@ -10,6 +10,7 @@ import lombok.Data;
 
 @Data
 public class DoctorPatientViewDTO {
+    private String id;
     private String fullName;
     private Double avgRating;
     private Integer reviewsCount;
@@ -17,6 +18,7 @@ public class DoctorPatientViewDTO {
     private int yearsOfExperience;
     private GeoJsonPoint clinicLocation;
     private List<String> languages;
+    private String avatarUrl;
     
 }
 
