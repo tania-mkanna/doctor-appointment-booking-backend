@@ -1,6 +1,7 @@
 package com.doctorbookingsystem.doctorbooking.controller;
 
 import com.doctorbookingsystem.doctorbooking.dto.AppointmentDTO;
+import com.doctorbookingsystem.doctorbooking.dto.CreateAppointmentRequest;
 import com.doctorbookingsystem.doctorbooking.enums.AppointmentPriority;
 import com.doctorbookingsystem.doctorbooking.service.interfaces.AppointmentService;
 import lombok.extern.slf4j.Slf4j;
@@ -98,14 +99,8 @@ public class AppointmentController {
 
     // create an appointment
     @PostMapping
-    public ResponseEntity<AppointmentDTO> createAppointment(@RequestBody AppointmentDTO dto) {
-        AppointmentDTO createdAppointment = appointmentService.createAppointment(
-                dto.getPatientId(),
-                dto.getDoctorId(),
-                dto.getSlot(),
-                dto.getCaseType(),
-                dto.getNotes()
-        );
+    public ResponseEntity<AppointmentDTO> createAppointment(@RequestBody CreateAppointmentRequest request) {
+        AppointmentDTO createdAppointment = appointmentService.createAppointment(request);
         return ResponseEntity.ok(createdAppointment);
     }
 

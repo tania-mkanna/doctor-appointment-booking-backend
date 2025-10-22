@@ -1,5 +1,7 @@
 package com.doctorbookingsystem.doctorbooking.service.impl;
 
+import com.doctorbookingsystem.doctorbooking.dto.AvailabilitySlotDTO;
+import com.doctorbookingsystem.doctorbooking.mapper.AvailabilitySlotMapper;
 import com.doctorbookingsystem.doctorbooking.model.AvailabilitySlot;
 import com.doctorbookingsystem.doctorbooking.model.Doctor;
 import com.doctorbookingsystem.doctorbooking.repository.AvailabilitySlotRepository;
@@ -15,10 +17,12 @@ import java.util.Optional;
 public class AvailabilitySlotServiceImpl implements AvailabilitySlotService {
 
     private final AvailabilitySlotRepository availabilitySlotRepository;
+    private final AvailabilitySlotMapper slotMapper;
 
 
-    public AvailabilitySlotServiceImpl(AvailabilitySlotRepository availabilitySlotRepository){
+    public AvailabilitySlotServiceImpl(AvailabilitySlotRepository availabilitySlotRepository,AvailabilitySlotMapper slotMapper){
         this.availabilitySlotRepository=availabilitySlotRepository;
+        this.slotMapper=slotMapper;
 
     }
 
@@ -43,16 +47,18 @@ public class AvailabilitySlotServiceImpl implements AvailabilitySlotService {
     }
 //create a slot
     @Override
-    public AvailabilitySlot createSlot(AvailabilitySlot slot,String doctorId){
-        log.info("Doctor {} create a slot from {} to {}",doctorId,slot.getStart(),slot.getEnd());
+    public AvailabilitySlot createSlot(AvailabilitySlotDTO slotDTO){
+
+        AvailabilitySlot slot=slotMapper.toEntity(slotDTO);
 
         if(slot.getStart().isAfter(slot.getEnd()) || slot.getStart().equals(slot.getEnd())){
             throw new RuntimeException("start must be before end ");
         }
 
-        slot.setDoctorId(doctorId);
+
         slot.setBooked(false);
-        return availabilitySlotRepository.save(slot);
+        AvailabilitySlot savedSlot = availabilitySlotRepository.save(slot);
+        return slotMapper.toDto(savedSlot);
     }
 
 //    mark isBooked=true

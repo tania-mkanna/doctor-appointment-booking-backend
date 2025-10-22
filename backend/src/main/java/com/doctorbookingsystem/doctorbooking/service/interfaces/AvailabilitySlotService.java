@@ -1,5 +1,6 @@
 package com.doctorbookingsystem.doctorbooking.service.interfaces;
 
+import com.doctorbookingsystem.doctorbooking.dto.AvailabilitySlotDTO;
 import com.doctorbookingsystem.doctorbooking.model.AvailabilitySlot;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public interface AvailabilitySlotService {
     List<AvailabilitySlot>getAvailableSlotsForDoctor(String doctorId);
 
 //    create a slot for a doctor
-    AvailabilitySlot createSlot(AvailabilitySlot slot,String doctorId);
+    AvailabilitySlot createSlot(AvailabilitySlotDTO slotDTO);
 
 //    mark a slot as booked (isBooked=true)
     AvailabilitySlot markSlotAsBooked(String slotId);

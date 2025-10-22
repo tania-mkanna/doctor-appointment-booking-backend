@@ -1,5 +1,6 @@
 package com.doctorbookingsystem.doctorbooking.controller;
 
+import com.doctorbookingsystem.doctorbooking.dto.AvailabilitySlotDTO;
 import com.doctorbookingsystem.doctorbooking.model.AvailabilitySlot;
 import com.doctorbookingsystem.doctorbooking.service.interfaces.AvailabilitySlotService;
 import jakarta.websocket.server.PathParam;
@@ -22,9 +23,9 @@ public class AvailabilitySlotController {
 
     //doctor create a slot
     @PostMapping("/doctor/{doctorId}/create")
-    public ResponseEntity<AvailabilitySlot> createSlot(@RequestBody AvailabilitySlot slot, @PathVariable String doctorId) {
-        log.info("Creating slot for doctorId: {}", slot.getDoctorId());
-        AvailabilitySlot createdSlot = availabilitySlotService.createSlot(slot,doctorId);
+    public ResponseEntity<AvailabilitySlot> createSlot(@RequestBody AvailabilitySlotDTO slotDTO) {
+        log.info("Creating slot for doctorId: {}", slotDTO.getDoctorId());
+        AvailabilitySlot createdSlot = availabilitySlotService.createSlot(slotDTO);
         return ResponseEntity.ok(createdSlot);
     }
 

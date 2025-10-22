@@ -25,6 +25,6 @@ public interface UserRepository extends MongoRepository<User, String> {
     List<User> findByRoleAndDoctorCityIgnoreCaseContaining(Role role ,String city);
 
 
-    // find neerby doctors within a certain distance from a given location
-    List<User> findByRoleAndDoctorClinicLocationNear(Role role, GeoJsonPoint location, Distance distance);     
+    // find nearby doctors within a certain distance from a given location
+    List<User> findByRoleAndDoctorClinicLocationNear(Role role, GeoJsonPoint location, Distance distance);
 }
