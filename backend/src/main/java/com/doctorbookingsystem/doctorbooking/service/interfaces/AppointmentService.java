@@ -1,6 +1,7 @@
 package com.doctorbookingsystem.doctorbooking.service.interfaces;
 
 import com.doctorbookingsystem.doctorbooking.dto.AppointmentDTO;
+import com.doctorbookingsystem.doctorbooking.dto.CreateAppointmentRequest;
 import com.doctorbookingsystem.doctorbooking.enums.AppointmentPriority;
 
 import com.doctorbookingsystem.doctorbooking.enums.CaseType;
@@ -47,6 +48,6 @@ public interface AppointmentService {
     AppointmentDTO completeAppointment(String doctorId, String appointmentId);
 
 //    create an appointment
-AppointmentDTO createAppointment(String patientId, String doctorID, AvailabilitySlot slotFromDTO, CaseType caseType,String notes);
+AppointmentDTO createAppointment(CreateAppointmentRequest request);
 
 }

@@ -1,6 +1,7 @@
 package com.doctorbookingsystem.doctorbooking.service.impl;
 
 import com.doctorbookingsystem.doctorbooking.dto.AppointmentDTO;
+import com.doctorbookingsystem.doctorbooking.dto.CreateAppointmentRequest;
 import com.doctorbookingsystem.doctorbooking.dto.UserDTO;
 import com.doctorbookingsystem.doctorbooking.enums.AppointmentPriority;
 import com.doctorbookingsystem.doctorbooking.enums.AppointmentStatus;
@@ -192,22 +193,22 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
 //create appointment
-public AppointmentDTO createAppointment(String patientId, String doctorId,  AvailabilitySlot availabilitySlot, CaseType caseType,String notes){
-        log.info("Creating appointment for patientId: {} with doctorId: {}", patientId, doctorId);
+public AppointmentDTO createAppointment(CreateAppointmentRequest request){
+        log.info("Creating appointment for patientId: {} with doctorId: {}", request.getPatientId(), request.getDoctorId());
 
 //        check if inputs are valid
-        User doctor=userRepository.findById(doctorId)
-                .orElseThrow(()->new RuntimeException("Doctor not found with id: " + doctorId));
+        User doctor=userRepository.findById(request.getDoctorId())
+                .orElseThrow(()->new RuntimeException("Doctor not found with id: " + request.getDoctorId()));
 
-        User patient=userRepository.findById(patientId) 
+        User patient=userRepository.findById(request.getPatientId())
             .orElseThrow(()->new RuntimeException("Patient not exist"));
 
 
-        if (availabilitySlot == null || availabilitySlot.getId() == null) {
+        if (request.getSlotId() == null) {
             throw new RuntimeException("Slot ID is required");
     }
 
-    AvailabilitySlot slot = availabilitySlotService.markSlotAsBooked(availabilitySlot.getId());
+    AvailabilitySlot slot = availabilitySlotService.markSlotAsBooked(request.getSlotId());
 
 //    build appointment
     Appointment appointment = Appointment.builder()
@@ -215,8 +216,9 @@ public AppointmentDTO createAppointment(String patientId, String doctorId,  Avai
             .patient(patient)
             .slot(slot)
             .status(AppointmentStatus.REQUESTED)
-            .caseType(caseType)
-            .priority(AppointmentPriority.LOW)
+            .caseType(request.getCaseType())
+            .priority(request.getPriority() != null ? request.getPriority() : AppointmentPriority.LOW)
+            .notes(request.getNotes())
             .build();
 
     Appointment savedAppointment = appointmentRepository.save(appointment);
