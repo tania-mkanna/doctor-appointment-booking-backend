@@ -9,15 +9,15 @@ public interface ReviewRepository extends MongoRepository<Review, String> {
 
 
 //    doctors review
-    List<Review> findByDoctorId();
+    List<Review> findByDoctorId(String doctorId);
 
 //    reviews written by patients
-    List<Review> findByPatientId();
+    List<Review> findByPatientId(String patientId);
 
 //    find reviews by appointment
 
     Review findByAppointmentId();
 
-    List<Review> findByAppointmentIdAndPatientId(String appointmentId,String patientId);
+    Review findByAppointmentIdAndPatientId(String appointmentId,String patientId);
 
 }
