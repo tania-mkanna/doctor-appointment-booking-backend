@@ -23,9 +23,9 @@ public class AvailabilitySlotController {
 
     //doctor create a slot
     @PostMapping("/doctor/{doctorId}/create")
-    public ResponseEntity<AvailabilitySlot> createSlot(@RequestBody AvailabilitySlotDTO slotDTO) {
+    public ResponseEntity<AvailabilitySlotDTO> createSlot(@RequestBody AvailabilitySlotDTO slotDTO) {
         log.info("Creating slot for doctorId: {}", slotDTO.getDoctorId());
-        AvailabilitySlot createdSlot = availabilitySlotService.createSlot(slotDTO);
+        AvailabilitySlotDTO createdSlot = availabilitySlotService.createSlot(slotDTO);
         return ResponseEntity.ok(createdSlot);
     }
 
