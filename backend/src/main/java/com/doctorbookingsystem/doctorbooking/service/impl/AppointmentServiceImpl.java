@@ -210,6 +210,11 @@ public AppointmentDTO createAppointment(CreateAppointmentRequest request){
 
     AvailabilitySlot slot = availabilitySlotService.markSlotAsBooked(request.getSlotId());
 
+//        check if the slot is already booked
+    if (slot.isBooked()) {
+        throw new RuntimeException("This slot is already booked");
+    }
+
 //    build appointment
     Appointment appointment = Appointment.builder()
             .doctor(doctor)
