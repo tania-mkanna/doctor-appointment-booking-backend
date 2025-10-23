@@ -47,7 +47,7 @@ public class AvailabilitySlotServiceImpl implements AvailabilitySlotService {
     }
 //create a slot
     @Override
-    public AvailabilitySlot createSlot(AvailabilitySlotDTO slotDTO){
+    public AvailabilitySlotDTO createSlot(AvailabilitySlotDTO slotDTO){
 
         AvailabilitySlot slot=slotMapper.toEntity(slotDTO);
 
