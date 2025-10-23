@@ -9,6 +9,7 @@ import com.doctorbookingsystem.doctorbooking.service.interfaces.AvailabilitySlot
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,6 +56,9 @@ public class AvailabilitySlotServiceImpl implements AvailabilitySlotService {
             throw new RuntimeException("start must be before end ");
         }
 
+        if (slot.getStart().isBefore(Instant.now())) {
+            throw new RuntimeException("Start time cannot be in the past.");
+        }
 
         slot.setBooked(false);
         AvailabilitySlot savedSlot = availabilitySlotRepository.save(slot);
